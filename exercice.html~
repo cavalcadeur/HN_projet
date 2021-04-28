@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="monstyle.css">
+<title>Exercice 2 !!!</title>
+</head>
+<body>
+<header>
+<h1>Technologies Web</h1>
+<h2>Master Humanités Numériques</h2>
+<p><a href="http://www.google.fr/">Première page</a></p>
+<p><a href="http://www.google.fr/">Deuxième page</a></p>
+</header>
+<main>
+<section>
+<h2>Bienvenue !</h2>
+<p class="intro">Cette page qui donne quelques éléments sur ce qu'il est possible de faire en HTML.</p>
+
+<h3>Petit exercice</h3>
+<p class="description">La chose importante a bien garder en tête est que HTML permet de structurer le contenu. La mise en forme n'est pas de son ressort, on utilise pour celà des feuilles de style CSS. Nous verrons celà lors du second cours.</p>
+</section>
+<section>
+<h3>Des boîtes dans des boîtes dans des boîtes</h3>
+<p>Cousin de XML, HTML partage avec celui-ci le fait de structurer le contenu dans une hierarchie d'éléments : une page HTML est un arbre. Par exemple, cette page-ci peut être vue comme celà :
+<ul>
+<li>Structure hierarchique de cette page HTML.</li>
+</ul>
+</p>
+<h3>Exercice</h3>
+<p>Créer un lien hypertexte vers un site externe de votre choix : <a href="https://cavalcadeur.github.io/rhizome/" title="Un jeu fait en javascript">Mon projet le plus abouti</a></p>
+</section>
+</main>
+
+<footer>Pied de page</footer>
+</body>
+</html>
