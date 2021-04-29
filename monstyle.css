@@ -57,6 +57,18 @@ li {
 	Font-Size: 10pt;
 	Text-Align: left;
 }
+.div_img {
+	display: flex;
+	align-items: center;
+    justify-content: center;
+	width: 80%;
+	height: 80%;
+	margin: 0% 10% 0% 10%;
+}
+img {
+	width: 100%;
+	height: 100%;
+}
 p {
 	Font-Family: Amarante;
 	Font-Size: 18pt;
