@@ -1,0 +1,476 @@
+---
+title: "Projet Transversal"
+author: "VR"
+date: "20/04/2021"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Prétraitement des données
+```{r message=FALSE,warning=FALSE}
+setwd("C:/Users/virgi/Desktop/Humanités Numériques/Projet transversal")
+library(readxl)
+cf <- read_excel("ds231.xls")
+cg <- read_excel("ds215.xls")
+lf <- read_excel("ds230.xls")
+lg <- read_excel("ds211.xls")
+names(cf) <-c("CODE DU CHEF-LIEU, VILLE", "NOM VILLE", "CODE DU LYCEE OU COLLEGE", "DATE DE FONDATION", "SUPERFICIE TOTALE", "SUPERFICIE BATIE", "SUPERFICIE LIBRE", "EXTERNAT DEMI-PENSIONNAIRE BOURSIERE NATIONALE", "EXTERNAT DEMI-PENSIONNAIRE BOURSIERE DEPARTEMENTALE", "EXTERNAT DEMI-PENSIONNAIRE BOURSIERE COMMUNALE", "EXTERNAT BOURSIERE FAMILIALE NATIONALE", "EXTERNAT BOURSIERE FAMILIALE DEPARTEMENTALE", "EXTERNAT BOURSIERE FAMILIALE COMMUNALE", "EXTERNAT EXTERNE BOURSIERE NATIONALE", "EXTERNAT EXTERNE BOURSIERE DEPARTEMENTALE", "EXTERNAT EXTERNE BOURSIERE COMMUNALE", "EXTERNAT BOURSIERE TOTAL", "EXTERNAT DEMI-PENSIONNAIRE NON-BOURSIERE", "EXTERNAT SURVEILLES NON-BOURSIERE", "EXTERNAT LIBRE NON-BOURSIERE", "EXTERNAT NON-BOURSIERE INSTITUTIONS", "EXTERNAT NON-BOURSIERE INTERNATS MUNICIPAUX", "EXTERNAT NON-BOURSIERE TOTAL", "EXTERNAT TOTAL", "INSTITUTIONS BOURSIERE NATIONALE", "INSTITUTIONS BOURSIERE DEPARTEMENTALE", "INSTITUTIONS BOURSIERE COMMUNALE", "INSTITUTIONS BOURSIERE TOTAL", "INSTITUTIONS LIBRES", "INSTITUTIONS TOTAL", "INTERNAT-MUNICIPAL PENTIONNAIRE BOURSIERE NATIONALE", "INTERNAT-MUNICIPAL PENTIONNAIRE BOURSIERE DEPARTEMENTALE", "INTERNAT-MUNICIPAL PENTIONNAIRE BOURSIERE COMMUNALE", "INTERNAT-MUNICIPAL DEMI-PENTIONNAIRE BOURSIERE NATIONALE", "INTERNAT-MUNICIPAL DEMI-PENTIONNAIRE BOURSIERE DEPARTEMENTALE", "INTERNAT-MUNICIPAL DEMI-PENTIONNAIRE BOURSIERE COMMUNALE", "INTERNAT-MUNICIPAL BOURSIERES TOTAL", "INTERNAT-MUNICIPAL PENTIONNAIRE NON-BOURSIERE", "INTERNAT-MUNICIPAL DEMI-PENTIONNAIRE NON-BOURSIERE", "INTERNAT-MUNICIPAL NON-BOURSIERE TOTAL", "INTERNAT-MUNICIPAL TOTAL", "ENSEIGNEMENT SECONDAIRE DEUXIEME PERIODE 6 SCIENCES", "ENSEIGNEMENT SECONDAIRE DEUXIEME PERIODE 6 LETTRES", "ENSEIGNEMENT SECONDAIRE DEUXIEME PERIODE 5", "ENSEIGNEMENT SECONDAIRE DEUXIEME PERIODE 4", "ENSEIGNEMENT SECONDAIRE PREMIERE PERIODE 3", "ENSEIGNEMENT SECONDAIRE PREMIERE PERIODE 2", "ENSEIGNEMENT SECONDAIRE PREMIERE PERIODE 1", "ENSEIGNEMENT SECONDAIRE TOTAL", "ENSEIGNEMENT PRIMAIRE CLASSE PRIMAIRE", "ENSEIGNEMENT PRIMAIRE CLASSE ENFANTINE", "ENSEIGNEMENT PRIMAIRE TOTAL", "ELEVE TOTAL GENERAL", "NOMBRE ELEVE SEVRES", "MODE ADMINISTRATION REGIE", "MODE ADMINISTRATION PENSION", "DATE RENOUVELLEMENT MOIS", "DATE RENOUVELLEMENT ANNEE", "PROPRIETE BATIMENT VILLE", "PROPRIETE BATIMENT PARTICULIERS", "ETAT BATIMENT BON", "ETAT BATIMENT ASSEZ", "ETAT BATIME MAUVAIS", "PROPRIETE MOBILIER VILLE", "PROPRIETE MOBILIER PARTICULIER", "ETAT MOBILIER BON", "ETAT MOBILIER ASSEZ", "ETAT MOBILIER MAUVAIS", "FRAIS ENSEIGNEMENT SECONDAIRE DEUXIEME PERIODE", "FRAIS ENSEIGNEMENT SECONDAIRE PREMIERE PERIODE", "FRAIS ENSEIGNEMENT PRIMAIRE", "FRAIS RETRIBUTION", "SUPPLEMENT", "RECETTE SUBVENTION ETAT", "RECETTES SUBVENTION DEPARTEMENT", "RECETTES SUBVENTION COMMUNE", "RECETTES PRODUIT BOURSIERE", "RECETTES PRODUIT NON-BOURSIERE", "RECETTES DIVERS", "RECETTE TOTALE", "DEPENSE PERSONNEL TRAITEMENT", "DEPENSE PERSONNEL INDEMNITES", "DEPENSE MATERIEL CHAUFFAGE", "DEPENSE LOYER", "DEPENSES TOTAL", "COMPARAISON EXCEDENT RECETTE", "COMPARAISON EXCEDENT DEPENSE", "INTERNAT MODE ADMINISTRATION REGIE", "INTERNAT MODE ADMINISTRATION PENSION", "INTERNAT PROPRIETE MOBILIER VILLE", "INTERNAT PROPRIETE MOBILIER DIRECTION", "INTERNAT ETAT MOBILIER BON", "INTERNAT ETAT MOBILIER ASSEZ", "INTERNAT ETAT MOBILIER MAUVAUS", "INTERNAT TARIF PENSIONNAIRE BOURSIERE", "INTERNAT TARIF DEMI-PENSIONNAIRE BOURSIERE", "INTERNAT PRIX PENSIONNAIRE DEUXIEME PERIODE", "INTERNAT PRIX PENSIONNAIRE PREMIERE PERIODE", "INTERNAT PRIX PENSIONNAIRE PRIMAIRE", "INTERNAT PRIX DEMI-PENSIONNAIRE DEUXIEME PERIODE", "INTERNAT PRIX DEMI-PENSIONNAIRE PREMIERE PERIODE", "INTERNAT PRIX DEMI-PENSIONNAIRE PRIMAIRE", "INTERNAT RECETTE SUBVENTION COMMUNE", "INTERNAT RECETTE SUBVENTION DEPARTEMENT", "INTERNAT RECETTE PRODUIT BOURSIERE", "INTERNAT RECETTE PRODUIT NON-BOURSIERE", "INTERNAT RECETTE ABONNEMENT", "INTERNAT TOTAL RECETTE", "INTERNAT DEPENSE PERSONNEL", "INTERNAT DEPENSE NOURITURE", "INTERNAT DEPENSE FRAIS", "INTERNAT TOTAL DEPENSE", "INTERNAT COMPARAISON EXCEDENT RECETTE", "INTERNAT COMPARAISON EXCEDENT DEPENSE")
+names(cg) <- c("CODE DU CHEF-LIEU, VILLE", "NOM VILLE", "CODE DU LYCEE OU COLLEGE", "DATE DE FONDATION", "SUPERFICIE TOTALE", "SUPERFICIE BATIE", "SUPERFICIE LIBRE", "MODE ADMINISTRATION REGIE", "MODE ADMINISTRATION PENSIION", "DATE RENOUVELLEMENT MOIS", "DATE RENOUVELLEMENT ANNEE", "PROPRIETE BATIMENT VILLE", "PROPRIETE BATIMENT ETAT", "ETAT BATIMENT BON", "ETAT BATIMENT ASSEZ", "ETAT BATIME MAUVAIS", "PROPRIETE MOBILIER VILLE", "PROPRIETE MOBILIER PRINCIPAL", "ETAT MOBILIER BON", "ETAT MOBILIER ASSEZ", "ETAT MOBILIER MAUVAIS", "ENSEIGNE CLASSIQUE TAUX", "ENSEIGNE CLASSIQUE RETRIBUTION", "ENSEIGNEMENT SPECIAL TAUX", "ENSEIGNE SPECIAL RETRIBUTION", "TAUX FRAIS ETUDES CLASSIQUES", "TAUX FRAIS ETUDES SPECIALES", "RECETTE SUBVENTION ETAT ENTRETIEN", "RECETTE SUBVENTION ETAT ASSURANCE", "RECETTE SUBVENTION COMMUNE", "RECETTE SUBVENTION DEPARTEMENT", "RECETTE PRODUIT PENSION", "RECETTE PRODUIT ETUDES", "RECETTE ABONNEMENTS", "RECETTE TOTALE", "DEPENSES PERSONNEL", "DEPENSES NOURRITURE", "DEPENSES FRAIS SERVICE", "DEPENSES TOTAL", "COLLEGE CHAIRE MATHEMATIQUES", "COLLEGE CHAIRE REGULIERES", "887 COLLEGE PLUSIEURS CHAIRES", "COLLEGE LIMITE RHETORIQUE", "COLLEGE LIMITE SECOND", "COLLEGE LIMITE TROISIEME", "COLLEGE DIVISION GRAMMAIRE", "COLLEGE ENSEIGNEME 6", "COLLEGE ENSEIGNEME 5", "COLLEGE ENSEIGNEME 4", "COLLEGE ENSEIGNEME 3", "COLLEGE ENSEIGNEME 2", "COLLEGE ENSEIGNEME 1", "COLLEGE ECOLE PRIMAIRE", "ELEVE INTERNE BOURSE NATIONALE", "ELEVE INTERNE BOURSE DEPARTEMENTALE", "ELEVE INTERNE BOURSE COMMUNALE", "ELEVE INTERNE BOURSE FONDATION", "ELEVE INTERNE PENSION LIBRE", "ELEVE INTERNE DEMI-PENSIONNAIRE", "ELEVE INTERNES TOTAL", "ELEVE EXTERNES BOURSE NATIONALE", "ELEVE EXTERNE BOURSE DEPARTEMENTALE", "ELEVE EXTERNE BOURSE COMMUNALE", "ELEVE EXTERNE BOURSE FONDATION", "ELEVE EXTERNES LIBRE", "ELEVE EXTERNE ETABLISSEMENT", "ELEVE EXTERNES TOTAL", "ELEVES TOTAL GENERAL", "ELEVE CLASSE MATHEMATIQUES SUPERIEUR NOUVEAU", "ELEVE CLASSE MATHEMATIQUES SUPERIEUR VETERAN", "ELEVE CLASSIQUE MATHEMATIQUES ELEMENTAIRE", "ELEVE CLASSIQUE PHILOSOPHIE NOUVEAU", "ELEVE CLASSIQUE PHILOSOPHIE VETERAN", "ELEVE CLASSIQUE RHETORIQUE NOUVEAU", "ELEVE CLASSIQUE RHETORIQUE VETERAN", "ELEVE EN CLASSIQUE 2", "ELEVE EN CLASSIQUE 3", "ELEVE EN CLASSIQUE 4", "ELEVE EN CLASSIQUE 5", "ELEVE EN CLASSIQUE 6", "ELEVE EN CLASSIQUE 7", "ELEVE EN CLASSIQUE 7", "ELEVE CLASSIQUE TOTAL", "ELEVE CLASSIQUE CLASSE PRIMAIRE", "ELEVE ENSEIGNEMENT SPECIAL 1", "ELEVE ENSEIGNEMENT SPECIAL 2", "ELEVE ENSEIGNEMENT SPECIAL 3", "ELEVE ENSEIGNEMENT SPECIAL 4", "ELEVE ENSEIGNEMENT SPECIAL 5", "ELEVE ENSEIGNEMENT SPECIAL 6", "ELEVE ENSEIGNEMENT SPECIAL TOTAL", "REPARTITION ELEVE TOTAL", "EN PREPA ECOLE NORMALE SCIENCE", "EN PREPA ECOLE NORMALE LETTRE", "EN PREPA ECOLE POLYTECHNIQUE", "EN PREPA ECOLE SAINT-CYR", "EN PREPA ECOLE NAVALE", "EN PREPA ECOLE FORESTIERE", "EN PREPA ECOLE CENTRALE", "EN PREPA ECOLE NORMALE CLUNY", "PROFESSEUR CLASSIQUE SCIENCE", "PROFESSEUR CLASSIQUE PHILOSOPHIE", "PROFESSEUR CLASSIQUE HISTOIRE", "PROFESSEUR CLASSIQUE RHETORIQUE", "PROFESSEUR CLASSIQUE GRAMMAIRE", "PROFESSEUR CLASSIQUE ELEMENTAIRE", "PROFESSEUR CLASSIQUE LANGUES", "PROFESSEUR CLASSIQUE TOTAL", "PROFESSEUR SPECIAL", "PROFESSEUR CLASSE PRIMAIRE", "PROFESSEUR TOTAL GENERAL", "ELEVE CLASSIQUE MATHEMATIQUES", "ELEVE CLASSIQUE PHILOSOPHIE", "ELEVE CLASSIQUE RHETORIQUE", "ELEVE CLASSIQUE GRAMMAIRE", "ELEVE CLASSIQUE ELEMENTAIRE", "ELEVE CLASSIQUE TOTAL", "ELEVE ENSEIGNEMENT SPECIAL", "ELEVE CLASSE PRIMAIRE", "ELEVE TOTAL GENERAL", "NOMBRE PROFESSEURS", "NOMBRE ELEVES", "RAPPORT NOMBRE PROFFESSEURS ELEVES")
+names(lf) <- c("CODE DU CHEF-LIEU, VILLE", "NOM VILLE", "CODE DU LYCEE OU COLLEGE", "DATE DE FONDATION", "SUPERFICIE TOTALE", "SUPERFICIE BATIE", "SUPERFICIE LIBRE", "RECETTE SUBVENTION ETAT", "RECETTE SUBVENTION COMMUNE", "RECETTE PRODUIT ETAT", "RECETTE PRODUIT DEPARTEMENT", "RECETTE PRODUIT COMMUNE", "RECETTE COMPLEMENT FRAIS", "RECETTE PRODUIT EXTERNAT SURVEILLE", "RECETTE PRODUIT EXTERNAT SIMPLE", "RECETTE COTISATION", "RECETTE TOTALE", "TARIF BOURSIER DEMI-PENSIONNAIRE", "TARIF BOURSIER EXTERNE", "TARIF ELEVE LIBRE PENSIONNAIRE 2", "TARIF ELEVE LIBRE PENSIONNAIRE 1", "TARIF ELEVE LIBRE PENSIONNAIRE PRIMAIRE", "TARIF ELEVE LIBRE SURVEILLE 2", "TARIF ELEVE LIBRE SURVEILLES 1", "TARIF ELEVE LIBRES SURVEILLES PRIMAIRE", "TARIF ELEVE LIBRES SIMPLE 2", "TARIF ELEVE LIBRES SIMPLE 1", "TARIF ELEVE LIBRES SIMPLE PRIMAIRE", "DEPENSE PERSONNEL TRAITEMENT", "DEPENSE PERSONNEL INDEMNITES", "DEPENSE PERSONNEL TOTAL", "DEPENSE PROFESSEUR TRAITEMENT", "DEPENSE PROFESSEUR INDEMNITES", "DEPENSE PROFESSEUR TOTAL", "DEPENSE PROFESSEUR OU MAITRESSE TRAITEMENT", "DEPENSE PROFESSEUR OU MAITRESSE INDEMNITES", "DEPENSE PROFESSEUR OU MAITRESSE TOTAL", "DEPENSE PERSONNEL MAITRE OU MAITRESSE", "DEPENSE PERSONNEL AGENT", "DEPENSE PERSONNEL TOTAL", "DEPENSE NOURRITURE", "DEPENSE MATERIEL IMPRIMERIE", "DEPENCE FRAIS PRIX", "DEPENSE MATERIEL BIBLIOTHEQUE", "DEPENSE MATERIEL TOTAL", "DEPENSES TOTAL", "REPORT TOTAL RECETTES", "COMPARAISON EXCEDENT RECETTE", "COMPARAISON EXCEDENT DEPENSE", "INTERNATS SUBVENTION", "INTERNATS PRODUIT ETAT", "INTERNATS PRODUIT DEPARTEMENT", "INTERNATS PRODUIT COMMUNE", "INTERNATS COMPLEMENT", "INTERNATS RECETTE DIVERS", "INTERNATS TROUSSEAUX", "INTERNATS RECETTE TOTALE", "INTERNAT PRIX BOURSIERE PENSIONNAIRE", "INTERNAT PRIX BOURSIERE DEMI-PENSIONNAIRE", "INTERNAT PRIX BOURSIERE ELEVE-LIBRE PENSIONNAIRE 2", "INTERNAT PRIX BOURSIERE ELEVE-LIBRE PENSIONNAIRE 1", "INTERNAT PRIX BOURSIERE ELEVE-LIBRE PENSIONNAIRE PRIMAIRE", "INTERNAT PRIX BOURSIERE ELEVE-LIBRE DEMI-PENSIONNAIRE 2", "INTERNAT PRIX BOURSIERE ELEVE-LIBRE DEMI-PENSIONNAIRE 1", "INTERNAT PRIX BOURSIERE ELEVE-LIBRE DEMI-PENSIONNAIRE PRIMAIRE", "INTERNAT DEPENSE PERSONNEL", "INTERNAT DEPENSE PERSONNEL AUMONIER", "INTERNAT DEPENSE PERSONNEL AUMONIER AGENTS", "INTERNAT DEPENSE PERSONNEL TOTAL", "INTERNAT DEPENSE MATERIEL NOURRITURE", "INTERNAT DEPENSE MATERIEL HABILLEMENT", "INTERNAT DEPENSE MATERIEL CHAUFFAGE", "INTERNAT DEPENSE MATERIEL TROUSSEAU", "INTERNAT DEPENSE MATERIEL TOTAL", "INTERNAT SOMMES VERSEES", "INTERNAT DEPENSES TOTAL", "INTERNAT REPORT TOTAL RECETTES", "887 INTERNAT COMPARAISON EXCEDENT RECETTE", "INTERNAT COMPARAISON EXCEDENT DEPENSE", "EXTERNAT DEMI-PENSIONNAIRE BOURSIERE NATIONALE", "EXTERNAT DEMI-PENSIONNAIRE BOURSIERE DEPARTEMENTALE", "EXTERNAT DEMI-PENSIONNAIRE BOURSIERE COMMUNALE", "EXTERNAT DEMI-PENSIONNAIRE BOURSIERE FAMILIALE NATIONALE", "EXTERNAT DEMI-PENSIONNAIRE BOURSIERE FAMILIALE DEPARTEMENTALE", "EXTERNAT DEMI-PENSIONNAIRE BOURSIERE FAMILIALE COMMUNALE", "EXTERNAT EXTERNE BOURSIERE NATIONALE", "EXTERNAT EXTERNE BOURSIERE DEPARTEMENTALE", "EXTERNAT EXTERNE BOURSIERE COMMUNALE", "EXTERNAT EXTERNE BOURSIERE TOTAL", "EXTERNAT DEMI-PENSIONNAIRE NON-BOURSIERE", "EXTERNAT SURVEILLES NON-BOURSIERE", "EXTERNAT LIBRE NON-BOURSIERE", "EXTERNAT NON-BOURSIERE INSTITUTIONS", "EXTERNAT NON-BOURSIERE INTERNATS", "EXTERNAT NON-BOURSIERE TOTAL", "EXTERNAT TOTAL", "INSTITUTIONS BOURSIERE NATIONALE", "INSTITUTIONS BOURSIERE DEPARTEMENTALE", "INSTITUTIONS BOURSIERE COMMUNALE", "INSTITUTIONS BOURSIERE TOTAL", "INSTITUTIONS LIBRES", "INSTITUTIONS TOTAL", "INTERNAT-MUNICIPAL PENTIONNAIRE BOURSIERE NATIONALE", "INTERNAT-MUNICIPAL PENTIONNAIRE BOURSIERE DEPARTEMENTALE", "INTERNAT-MUNICIPAL PENTIONNAIRE BOURSIERE COMMUNALE", "INTERNAT-MUNICIPAL DEMI-PENTIONNAIRE BOURSIERE NATIONALE", "INTERNAT-MUNICIPAL DEMI-PENTIONNAIRE BOURSIERE DEPARTEMENTALE", "INTERNAT-MUNICIPAL DEMI-PENTIONNAIRE BOURSIERE COMMUNALE", "INTERNAT-MUNICIPAL BOURSIERES TOTAL", "INTERNAT-MUNICIPAL PENTIONNAIRE NON-BOURSIERE", "INTERNAT-MUNICIPAL DEMI-PENTIONNAIRE NON-BOURSIERE", "INTERNAT-MUNICIPAL NON-BOURSIERE TOTAL", "INTERNAT-MUNICIPAL TOTAL", "ENSEIGNEMENT SECONDAIRE DEUXIEME PERIODE 6 SCIENCES", "ENSEIGNEMENT SECONDAIRE DEUXIEME PERIODE 6 LETTRES", "ENSEIGNEMENT SECONDAIRE DEUXIEME PERIODE 5", "ENSEIGNEMENT SECONDAIRE DEUXIEME PERIODE 4", "ENSEIGNEMENT SECONDAIRE PREMIERE PERIODE 3", "ENSEIGNEMENT SECONDAIRE PREMIERE PERIODE 3", "ENSEIGNEMENT SECONDAIRE PREMIERE PERIODE 1", "ENSEIGNEMENT SECONDAIRE TOTAL", "ENSEIGNEMENT PRIMAIRE CLASSE PRIMAIRE", "ENSEIGNEMENT PRIMAIRE CLASSE ENFANTINE", "ENSEIGNEMENT PRIMAIRE TOTAL", "ELEVE TOTAL GENERAL", "NOMBRES ELEVE SEVRES")
+names(lg) <- c("CODE DU CHEF-LIEU, VILLE", "NOM VILLE", "CODE DU LYCEE OU COLLEGE", "DATE DE FONDATION", "SUPERFICIE TOTALE", "SUPERFICIE BATIE", "SUPERFICIE LIBRE", "RECETTE SUBVENTION ETAT", "RECETTE SUBVENTION DEPARTEMENT", "RECETTE BOURSES ETAT", "RECETTE BOURSES DEPARTEMENT", "RECETTE BOURSES COMMUNE", "RECETTE BOURSES FONDATION", "RECETTE COMPLEMENTS", "RECETTE FRAIS ETUDES", "RECETTE LYCEE RENTES", "RECETTE DIVERSES EX", "RECETTE TROUSSEAU", "RECETTE TOTALE", "PRIX BOURSE PENSION", "PRIX BOURSE DEMI-PENSION", "PRIX BOURSE EXTERNES", "PRIX PENSION ELEMENTAIRE", "PRIX PENSION GRAMMAIRE", "PRIX PENSION SUPERIEUR", "PRIX PENSION MATHEMATIQUES", "RETRIBUT FRAIS ELEMENTAIRE", "RETRIBUT FRAIS GRAMMAIRE", "RETRIBUT FRAIS SUPERIEUR", "RETRIBUT FRAIS MATHEMATIQUES", "RETRIBUTION ADMISSION", "DEPENSE PERSONNEL PROVISEUR TRAITEMENT", "DEPENSE PERSONNEL PROVISEUR INDEMNITES", "DEPENSE PERSONNEL PROVISEUR TOTAL", "DEPENSE PERSONNEL CLASSIQUE TRAITEMENT", "DEPENSE PERSONNEL CLASSIQUE INDEMNITES", "DEPENSE PERSONNEL CLASSIQUE TOTAL", "DEPENSE PERSONNEL SPECIAL TRAITEMENT", "DEPENSE PERSONNEL SPECIAL INDEMNITES", "DEPENSE PERSONNEL SPECIAL TOTAL", "DEPENSE PERSONNEL MAITRE", "DEPENSE PERSONNEL SUBVEILLANT", "DEPENSE PERSONNEL MEDECIN", "DEPENSE PERSONNEL AGENT", "DEPENSE PERSONNEL TOTAL", "DEPENSE MATERIEL NOURRITURE", "DEPENSE MATERIEL HABILLEMENT", "DEPENSE MATERIEL CHAUFFAGE", "DEPENSE MATERIEL FRAIS", "DEPENSE MATERIEL BIBLIOTHEQUE", "DEPENSE MATERIEL TROUSSEAU", "DEPENSE MATERIEL TOTAL", "DEPENSES TOTAL", "REPORT TOTAL RECETTES", "COMPARAISON RECETTE", "COMPARAISON DEPENSE", "ELEVE INTERNE BOURSE NATIONALE", "ELEVE INTERNE BOURSE DEPARTEMENTALE", "ELEVE INTERNE BOURSE COMMUNALE", "ELEVE INTERNE BOURSE FONDATION", "ELEVE INTERNE PENSION LIBRE", "ELEVE INTERNE DEMI-PENSIONNAIRE", "ELEVE INTERNES TOTAL", "ELEVE EXTERNES BOURSE NATIONALE", "ELEVE EXTERNE BOURSE DEPARTEMENTALE", "ELEVE EXTERNE BOURSE COMMUNALE", "ELEVE EXTERNE SURVEILLE", "ELEVE EXTERNES LIBRE", "ELEVE EXTERNE ETABLISSEMENT", "ELEVE EXTERNES TOTAL", "ELEVES TOTAL GENERAL", "ELEVE CLASSE MATHEMATIQUES SUPERIEUR NIVEAUX", "ELEVE CLASSE MATHEMATIQUES SUPERIEUR VETERAN", "ELEVE CLASSIQUE MATHEMATIQUES ELEMENTAIRE", "ELEVE CLASSIQUE MATHEMATIQUES PREPARATOIRE", "ELEVE CLASSIQUE PHILOSOPHIE NIVEAUX", "ELEVE CLASSIQUE PHILOSOPHIE VETERAN", "ELEVE CLASSIQUE RHETORIQUE NIVEAUX", "ELEVE CLASSIQUE RHETORIQUE VETERAN", "ELEVE EN CLASSIQUE 2", "ELEVE EN CLASSIQUE 3", "ELEVE EN CLASSIQUE 4", "ELEVE EN CLASSIQUE 5", "ELEVE EN CLASSIQUE 6", "ELEVE EN CLASSIQUE 7", "ELEVE EN CLASSIQUE 8", "ELEVE CLASSIQUE CLASSE PRIMAIRE", "ELEVE CLASSIQUE TOTAL", "ELEVE ENSEIGNEMENT SPECIAL 6", "ELEVE ENSEIGNEMENT SPECIAL 5", "ELEVE ENSEIGNEMENT SPECIAL 4", "ELEVE ENSEIGNEMENT SPECIAL 3", "ELEVE ENSEIGNEMENT SPECIAL 2", "ELEVE ENSEIGNEMENT SPECIAL 1", "ELEVE ENSEIGNEMENT SPECIAL TOTAL", "REPARTITION ELEVE TOTAL", "EN PREPA ECOLE NORMALE LETTRE", "EN PREPA ECOLE NORMALE SCIENCE", "EN PREPA ECOLE POLYTECHNIQUE", "EN PREPA ECOLE SAINT-CYR", "EN PREPA ECOLE NAVALE", "EN PREPA ECOLE FORESTIERE", "EN PREPA ECOLE CENTRLALE", "EN PREPA ECOLE NORMALE CLUNY", "877 ELEVE CLASSIQUE PASS", "878 ELEVE CLASSIQUE PASS", "879 ELEVE CLASSIQUE PASS", "880 ELEVE CLASSIQUE PASS", "881 ELEVE CLASSIQUE PASS", "882 ELEVE CLASSIQUE PASS", "883 ELEVE CLASSIQUE PASS", "884 ELEVE CLASSIQUE PASS", "885 ELEVE CLASSIQUE PASS", "886 ELEVE CLASSIQUE PASS", "887 ELEVE CLASSIQUE PASS", "ELEVE CLASSIQUE TOTAL", "ELEVE SPECIAL PASSE", "878 ELEVE SPECIAL PASSE", "879 ELEVE SPECIAL PASSE", "880 ELEVES SPECIAL PASSE", "881 ELEVES SPECIAL PASSE", "882 ELEVES SPECIAL PASSE", "883 ELEVES SPECIAL PASSE", "884 ELEVES SPECIAL PASSE", "885 ELEVES SPECIAL PASSE", "886 ELEVES SPECIAL PASSE", "887 ELEVES SPECIAL PASSE", "ELEVES SPECIAL TOTAL")
+lg <- lg[-1,]
+lf <- lf[-1,]
+cg <- cg[-1,]
+cf <- cf[-1,]
+write.csv2(cf, "college_filles.csv")
+write.csv2(cg, "college_garcons.csv")
+write.csv2(lf, "lycee_filles.csv")
+write.csv2(lg, "lycee.garcons.csv")
+```
+Les jeux de données présentent un certain nombre de variables qui décrivent des établissements scolaires en 1887.
+Les quatre jeux de données ont été nettoyés une première fois, pour être intégrées dans la base de données. Certaines variables inutiles ont été supprimées, la majorité des variables ont été renommées, afin d'être plus claires et plus courtes mais également afin de permettre la correspondances entre les jeux de données, lorsque les variables sont communes mais n'ont pas le même nom.
+
+## Importation des données
+```{r message=FALSE,warning=FALSE}
+setwd("C:/Users/virgi/Desktop/Humanités Numériques/Projet transversal")
+cf <- read.csv2("college_filles.csv")
+cg <- read.csv2("college_garcons.csv")
+lf <- read.csv2("lycee_filles.csv")
+lg <- read.csv2("lycee_garcons.csv")
+library(questionr)
+##Elimination de la première ligne concernant la France
+lg <- lg[-1,]
+lf <- lf[-1,]
+cg <- cg[-1,]
+cf <- cf[-1,]
+```
+
+##Etude de la répartition des élèves
+```{r message=FALSE,warning=FALSE}
+##Répartition des élèves en fonction des niveauxx dans les collèges pour filles
+c((sum(sum(cf$ENSEIGNEMENT.SECONDAIRE.DEUXIEME.PERIODE.6.SCIENCES, na.rm = TRUE),sum(cf$ENSEIGNEMENT.SECONDAIRE.DEUXIEME.PERIODE.6.LETTRES, na.rm = TRUE))), sum(cf$ENSEIGNEMENT.SECONDAIRE.DEUXIEME.PERIODE.5, na.rm = TRUE), sum(cf$ENSEIGNEMENT.SECONDAIRE.DEUXIEME.PERIODE.4, na.rm= TRUE), sum(cf$ENSEIGNEMENT.SECONDAIRE.PREMIERE.PERIODE.3, na.rm= TRUE), sum(cf$ENSEIGNEMENT.SECONDAIRE.PREMIERE.PERIODE.2, na.rm= TRUE), sum(cf$ENSEIGNEMENT.SECONDAIRE.PREMIERE.PERIODE.1, na.rm= TRUE), sum(cf$NOMBRE.ELEVE.SEVRES, na.rm=TRUE))
+##Répartition des élèves en fonction des niveauxx dans les lycées pour filles
+c((sum(lf$ENSEIGNEMENT.SECONDAIRE.DEUXIEME.PERIODE.6.SCIENCES, na.rm = TRUE)+sum(lf$ENSEIGNEMENT.SECONDAIRE.DEUXIEME.PERIODE.6.LETTRES, na.rm = TRUE)), sum(lf$ENSEIGNEMENT.SECONDAIRE.DEUXIEME.PERIODE.5, na.rm = TRUE), sum(lf$ENSEIGNEMENT.SECONDAIRE.DEUXIEME.PERIODE.4, na.rm= TRUE), sum(lf$ENSEIGNEMENT.SECONDAIRE.PREMIERE.PERIODE.3, na.rm= TRUE), sum(lf$ENSEIGNEMENT.SECONDAIRE.PREMIERE.PERIODE.2, na.rm= TRUE), sum(lf$ENSEIGNEMENT.SECONDAIRE.PREMIERE.PERIODE.1, na.rm= TRUE), sum(lf$NOMBRE.ELEVE.SEVRES, na.rm=TRUE))
+##Répartition des élèves entre enseignement classique et spécial dans les lycées pour garçons
+sum(lg$ELEVE.CLASSIQUE.TOTAL, na.rm = TRUE) / sum(lg$ELEVES.TOTAL.GENERAL, na.rm = TRUE)
+sum(lg$ELEVE.ENSEIGNEMENT.SPECIAL.TOTAL, na.rm = TRUE) / sum(lg$ELEVES.TOTAL.GENERAL, na.rm = TRUE)
+c(sum(lg$ELEVE.EN.CLASSIQUE.2, na.rm = TRUE), sum(lg$ELEVE.EN.CLASSIQUE.3, na.rm = TRUE),sum(lg$ELEVE.EN.CLASSIQUE.4, na.rm = TRUE),sum(lg$ELEVE.EN.CLASSIQUE.5, na.rm = TRUE),sum(lg$ELEVE.EN.CLASSIQUE.6, na.rm = TRUE),sum(lg$ELEVE.EN.CLASSIQUE.7, na.rm = TRUE),sum(lg$ELEVE.EN.CLASSIQUE.8, na.rm = TRUE), sum(lg$ELEVE.CLASSIQUE.CLASSE.PRIMAIRE, na.rm = TRUE))
+c(sum(lg$ELEVE.ENSEIGNEMENT.SPECIAL.1, na.rm = TRUE), sum(lg$ELEVE.ENSEIGNEMENT.SPECIAL.2, na.rm = TRUE), sum(lg$ELEVE.ENSEIGNEMENT.SPECIAL.3, na.rm = TRUE),sum(lg$ELEVE.ENSEIGNEMENT.SPECIAL.4, na.rm = TRUE),sum(lg$ELEVE.ENSEIGNEMENT.SPECIAL.5, na.rm = TRUE),sum(lg$ELEVE.ENSEIGNEMENT.SPECIAL.6, na.rm = TRUE))
+##Répartition des élèves entre enseignement classique et spécial dans les collèges pour garçons
+sum(cg$ELEVE.CLASSIQUE.TOTAL, na.rm = TRUE) / sum(cg$ELEVES.TOTAL.GENERAL, na.rm = TRUE)
+sum(cg$ELEVE.ENSEIGNEMENT.SPECIAL.TOTAL, na.rm = TRUE) / sum(cg$ELEVES.TOTAL.GENERAL, na.rm = TRUE)
+sum(cg$ELEVE.CLASSE.PRIMAIRE, na.rm = TRUE) / sum(cg$ELEVES.TOTAL.GENERAL, na.rm = TRUE)
+c(sum(cg$ELEVE.EN.CLASSIQUE.2, na.rm = TRUE), sum(cg$ELEVE.EN.CLASSIQUE.3, na.rm = TRUE),sum(cg$ELEVE.EN.CLASSIQUE.4, na.rm = TRUE),sum(cg$ELEVE.EN.CLASSIQUE.5, na.rm = TRUE),sum(cg$ELEVE.EN.CLASSIQUE.6, na.rm = TRUE),sum(cg$ELEVE.EN.CLASSIQUE.7, na.rm = TRUE),sum(cg$ELEVE.EN.CLASSIQUE.7.1, na.rm = TRUE), sum(cg$ELEVE.CLASSE.PRIMAIRE, na.rm = TRUE))
+c(sum(cg$ELEVE.ENSEIGNEMENT.SPECIAL.1, na.rm = TRUE), sum(cg$ELEVE.ENSEIGNEMENT.SPECIAL.2, na.rm = TRUE), sum(cg$ELEVE.ENSEIGNEMENT.SPECIAL.3, na.rm = TRUE),sum(cg$ELEVE.ENSEIGNEMENT.SPECIAL.4, na.rm = TRUE),sum(cg$ELEVE.ENSEIGNEMENT.SPECIAL.5, na.rm = TRUE),sum(cg$ELEVE.ENSEIGNEMENT.SPECIAL.6, na.rm = TRUE))
+##Concours des grandes écoles
+c(sum(sum(lg$EN.PREPA.ECOLE.CENTRALE, na.rm = TRUE), sum(lg$EN.PREPA.ECOLE.NORMALE.LETTRE, na.rm = TRUE), sum(lg$EN.PREPA.ECOLE.NORMALE.SCIENCE, na.rm = TRUE), sum(lg$EN.PREPA.ECOLE.NORMALE.CLUNY, na.rm = TRUE), sum(lg$EN.PREPA.ECOLE.POLYTECHNIQUE, na.rm = TRUE), sum(lg$EN.PREPA.ECOLE.SAINT.CYR, na.rm = TRUE), sum(lg$EN.PREPA.ECOLE.FORESTIERE, na.rm = TRUE), sum(lg$EN.PREPA.ECOLE.NAVALE, na.rm = TRUE)),sum(sum(cg$EN.PREPA.ECOLE.CENTRALE, na.rm = TRUE), sum(cg$EN.PREPA.ECOLE.NORMALE.LETTRE, na.rm = TRUE), sum(cg$EN.PREPA.ECOLE.NORMALE.SCIENCE, na.rm = TRUE), sum(cg$EN.PREPA.ECOLE.NORMALE.CLUNY, na.rm = TRUE), sum(cg$EN.PREPA.ECOLE.POLYTECHNIQUE, na.rm = TRUE), sum(cg$EN.PREPA.ECOLE.SAINT.CYR, na.rm = TRUE), sum(cg$EN.PREPA.ECOLE.FORESTIERE, na.rm = TRUE), sum(cg$EN.PREPA.ECOLE.NAVALE, na.rm = TRUE)))
+```
+
+##Etude du financement des établissement
+```{r message=FALSE,warning=FALSE}
+##Subventions
+lf$RECETTE.TOTALE. <- as.numeric(lf$RECETTE.TOTALE.)
+(sum(lf$RECETTE.SUBVENTION.ETAT)/sum(lf$RECETTE.TOTALE.))*100
+lf$RECETTE.SUBVENTION.COMMUNE <- as.numeric(lf$RECETTE.SUBVENTION.COMMUNE)
+(sum(lf$RECETTE.SUBVENTION.COMMUNE, na.rm = TRUE)/sum(lf$RECETTE.TOTALE.))*100
+lg$RECETTE.SUBVENTION.ETAT <- as.numeric(lg$RECETTE.SUBVENTION.ETAT)
+(sum(lg$RECETTE.SUBVENTION.ETAT)/sum(lg$RECETTE.TOTALE, na.rm = TRUE))*100
+lg$RECETTE.SUBVENTION.DEPARTEMENT <- as.numeric(lg$RECETTE.SUBVENTION.DEPARTEMENT)
+(sum(lg$RECETTE.SUBVENTION.DEPARTEMENT, na.rm = TRUE) /sum(lg$RECETTE.TOTALE, na.rm=TRUE))*100
+cf$RECETTE.SUBVENTION.ETAT <- as.numeric(cf$RECETTE.SUBVENTION.ETAT)
+cf$RECETTE.TOTALE <- as.numeric(cf$RECETTE.TOTALE)
+(sum(cf$RECETTE.SUBVENTION.ETAT)/sum(cf$RECETTE.TOTALE))*100
+(sum(cf$RECETTES.SUBVENTION.DEPARTEMENT, na.rm = TRUE)/sum(cf$RECETTE.TOTALE))*100
+cf$RECETTES.SUBVENTION.COMMUNE <- as.numeric(cf$RECETTES.SUBVENTION.COMMUNE)
+(sum(cf$RECETTES.SUBVENTION.COMMUNE, na.rm = TRUE)/sum(cf$RECETTE.TOTALE))*100
+cg$RECETTE.SUBVENTION.ETAT.ASSURANCE <- as.numeric(cg$RECETTE.SUBVENTION.ETAT.ASSURANCE)
+cg$RECETTE.SUBVENTION.ETAT.ENTRETIEN <- as.numeric(cg$RECETTE.SUBVENTION.ETAT.ENTRETIEN)
+((sum(cg$RECETTE.SUBVENTION.ETAT.ASSURANCE, na.rm = TRUE) + sum(cg$RECETTE.SUBVENTION.ETAT.ENTRETIEN, na.rm = TRUE)) / sum(cg$RECETTE.TOTALE, na.rm = TRUE))*100
+cg$RECETTE.SUBVENTION.DEPARTEMENT <- as.numeric(cg$RECETTE.SUBVENTION.DEPARTEMENT)
+(sum(cg$RECETTE.SUBVENTION.DEPARTEMENT, na.rm = TRUE)/sum(cg$RECETTE.TOTALE, na.rm = TRUE))*100
+cg$RECETTE.SUBVENTION.COMMUNE <- as.numeric(cg$RECETTE.SUBVENTION.COMMUNE)
+(sum(cg$RECETTE.SUBVENTION.COMMUNE, na.rm = TRUE)/sum(cg$RECETTE.TOTALE, na.rm = TRUE))*100
+##Bourses
+lg$RECETTE.BOURSES.ETAT <- as.numeric(lg$RECETTE.BOURSES.ETAT)
+(sum(lg$RECETTE.BOURSES.ETAT)/sum(lg$RECETTE.TOTALE, na.rm = TRUE))*100
+lg$RECETTE.BOURSES.DEPARTEMENT <- as.numeric(lg$RECETTE.BOURSES.DEPARTEMENT)
+(sum(lg$RECETTE.BOURSES.DEPARTEMENT, na.rm = TRUE) /sum(lg$RECETTE.TOTALE, na.rm=TRUE))*100
+lg$RECETTE.BOURSES.COMMUNE <- as.numeric(lg$RECETTE.BOURSES.COMMUNE)
+(sum(lg$RECETTE.BOURSES.COMMUNE, na.rm = TRUE) /sum(lg$RECETTE.TOTALE, na.rm=TRUE))*100
+cf$RECETTES.PRODUIT.BOURSIERE <- as.numeric(cf$RECETTES.PRODUIT.BOURSIERE)
+cf$RECETTES.PRODUIT.BOURSIERE <- as.numeric(cf$RECETTES.PRODUIT.BOURSIERE)
+(sum(cf$RECETTES.PRODUIT.BOURSIERE, na.rm = TRUE)/sum(cf$RECETTE.TOTALE))*100
+##Frais d'étude
+lf$RECETTE.PRODUIT.ETAT <- as.numeric(lf$RECETTE.PRODUIT.ETAT)
+lf$RECETTE.PRODUIT.DEPARTEMENT <- as.numeric(lf$RECETTE.PRODUIT.DEPARTEMENT)
+lf$RECETTE.PRODUIT.COMMUNE <- as.numeric(lf$RECETTE.PRODUIT.COMMUNE)
+((sum(lf$RECETTE.PRODUIT.ETAT, na.rm = TRUE)+ sum(lf$RECETTE.PRODUIT.DEPARTEMENT, na.rm = TRUE)+sum(lf$RECETTE.PRODUIT.COMMUNE, na.rm = TRUE))/sum(lf$RECETTE.TOTALE.))*100
+lg$RECETTE.FRAIS.ETUDES <- as.numeric(lg$RECETTE.FRAIS.ETUDES)
+(sum(lg$RECETTE.FRAIS.ETUDES) / sum(lg$RECETTE.TOTALE, na.rm = TRUE))*100
+cg$RECETTE.PRODUIT.ETUDES <- as.numeric(cg$RECETTE.PRODUIT.ETUDES)
+(sum(cg$RECETTE.PRODUIT.ETUDES, na.rm = TRUE)/sum(cg$RECETTE.TOTALE, na.rm = TRUE))*100
+##Nombre de boursiers
+((sum(lg$ELEVE.INTERNE.BOURSE.NATIONALE, na.rm = TRUE)+sum(lg$ELEVE.INTERNE.BOURSE.DEPARTEMENTALE, na.rm = TRUE)+sum(lg$ELEVE.INTERNE.BOURSE.COMMUNALE, na.rm = TRUE)+sum(lg$ELEVE.INTERNE.BOURSE.FONDATION, na.rm = TRUE)+sum(lg$ELEVE.EXTERNE.BOURSE.DEPARTEMENTALE, na.rm = TRUE)+sum(lg$ELEVE.EXTERNES.BOURSE.NATIONALE, na.rm = TRUE)+sum(lg$ELEVE.EXTERNE.BOURSE.COMMUNALE, na.rm = TRUE))/sum(lg$ELEVES.TOTAL.GENERAL, na.rm = TRUE))*100
+((sum(cg$ELEVE.INTERNE.BOURSE.NATIONALE, na.rm = TRUE)+sum(cg$ELEVE.INTERNE.BOURSE.DEPARTEMENTALE, na.rm = TRUE)+sum(cg$ELEVE.INTERNE.BOURSE.COMMUNALE, na.rm = TRUE)+sum(cg$ELEVE.INTERNE.BOURSE.FONDATION, na.rm = TRUE)+sum(cg$ELEVE.EXTERNE.BOURSE.DEPARTEMENTALE, na.rm = TRUE)+sum(cg$ELEVE.EXTERNES.BOURSE.NATIONALE, na.rm = TRUE)+sum(cg$ELEVE.EXTERNE.BOURSE.COMMUNALE, na.rm = TRUE)+sum(cg$ELEVE.EXTERNES.BOURSE.FONDATION, na.rm = TRUE))/sum(cg$ELEVES.TOTAL.GENERAL, na.rm = TRUE))*100
+```
+# Les ACP
+
+Pour les ACP, les jeux de données ont été soumis à un second nettoyage, à partir des jeux de données nettoyés. Dans ce cas, les jeux de données ont été rassemblés en deux jeux de données distincts : l'un se concentrant sur les établissements scolaires des filles et l'autre sur les établissements scolaires des garçons. 
+Les individus statistiques sont les établissements scolaires et les variables sont les critères qui permettent de les décrire : académie, département, arrondissement, ville, date de fondation, superficie, recettes, dépenses, frais d'études, nombre d'élèves, propriété des bâtiments, répartition des élèves par classes et par niveaux, subventions, nombre d'élèves internes et d'externes, etc. Certains de ces critères sont présents dans deux jeux de données mais pas dans les autres. Les quatre jeux de données n'ayant qu'une dizaine seulement de variables communes (dont quatre ne sont pas quantitatives) sur la centaine qui les constituent, un unique jeu de données n'a pas été constitué. 
+Le second nettoyage a permis de supprimer les variables non communes aux deux jeux de données rassemblés, de supprimer les variables non quantitatives et celles qui apparaissaient en double, voire en triple au sein d'un même tableau. Certaines variables ont été renommées et une variable "Type d'établissements" a été ajoutée pour que puisse apparaître la différence entre lycées et collèges. Pour plus de clarté sur les graphiques et éviter la répétition de certaines villes/nom d'établissements, il a été décidé arbitrairement d'ajouter un 1 final aux noms des lycées. Les individus possédant beaucoup de valeurs manquantes ont été supprimés également. Et enfin, les colonnes qui comportaient un grand nombre de zéro ont elles aussi été supprimées. 
+
+```{r message=FALSE,warning=FALSE}
+
+library("markdown")
+library("knitr")
+library("rmarkdown")
+library("FactoMineR")
+library("factoextra")
+library("ggplot2")
+library("questionr")
+library("missMDA")
+
+
+```
+
+# ACP des établissements pour filles (lycées et collèges)
+On fait une ACP car les variables sont très majoritairement quantitatives. L'ACP va permettre d'identfier des établissements filles qui se ressemblent et des établissements filles qui sont différents, et va mettre en évidence les corrélations entre les variables.
+
+## Importation des données et conversion des variables
+```{r message=FALSE, warning=FALSE}
+
+ef = read.csv2("etablissements.filles.csv", header =TRUE, row.names="ETABLISSEMENT") #Importation d'un jeu de données regroupant les données lycées filles et collèges filles à partir de leurs variables communes.
+
+str(ef)
+
+# Conversion de certaines variables :
+ef$SUPERFICIE.TOTALE=as.numeric(ef$SUPERFICIE.TOTALE)
+ef$SUPERFICIE.BATIE=as.numeric(ef$SUPERFICIE.BATIE)
+ef$SUPERFICIE.LIBRE=as.numeric(ef$SUPERFICIE.LIBRE)
+ef$RECETTE.SUBVENTION.ETAT=as.numeric(ef$RECETTE.SUBVENTION.ETAT)
+ef$RECETTES.SUBVENTION.COMMUNE=as.numeric(ef$RECETTES.SUBVENTION.COMMUNE)
+ef$RECETTE.TOTALE = as.numeric(ef$RECETTE.TOTALE)
+ef$DEPENSE.PERSONNEL.TRAITEMENT=as.numeric(ef$DEPENSE.PERSONNEL.TRAITEMENT)
+ef$DEPENSE.PERSONNEL.INDEMNITES=as.numeric(ef$DEPENSE.PERSONNEL.INDEMNITES)
+ef$DEPENSES.TOTAL=as.numeric(ef$DEPENSES.TOTAL)
+ef$COMPARAISON.EXCEDENT.RECETTE=as.numeric(ef$COMPARAISON.EXCEDENT.RECETTE)
+ef$INTERNAT.TOTAL.RECETTE=as.numeric(ef$INTERNAT.TOTAL.RECETTE)
+ef$INTERNAT.TOTAL.DEPENSE=as.numeric(ef$INTERNAT.TOTAL.DEPENSE)
+
+```
+## ACP
+```{r message=FALSE,warning=FALSE}
+ef.active=ef[4:25]
+# Comme on a des valeurs manquantes, on va estimer les valeurs manquantes par une ACP et ainsi réaliser compléter le tableau des données à partir duquel nous effectuerons notre ACP prévue.
+nb=estim_ncpPCA(ef.active, ncp.max=5)
+ef.complete=imputePCA(ef.active, ncp=nb$ncp)
+res.pca = PCA(ef.complete$completeObs, graph = FALSE)
+print(res.pca)
+```
+
+## Visualisation des valeurs propres et choix des axes
+```{r message=FALSE,warning=FALSE}
+eig.val = get_eigenvalue(res.pca) 
+eig.val
+fviz_eig(res.pca, addlabels = TRUE)
+```
+Sur le graphique des valeurs propres, selon le critère du coude, on conserve les axes avant le décrochement, donc ici les trois premiers axes. Les trois premiers axes expliquent 76% de la variance. Nous décidons donc de retenir les trois premiers axes.
+
+## Analyse des résultats des variables
+### Interprétation sur l'axe 1
+```{r message=FALSE,warning=FALSE}
+var = get_pca_var(res.pca) 
+coord = var$coord[,1]
+contrib = var$contrib[,1]
+cos2 = var$cos2[,1]
+display = cbind(coord,contrib,cos2)
+View(display)
+```
+
+Le côté positif de l'axe 1 est caractérisé par les variables "INTERNAT.TOTAL.DEPENSE","INTERNAT.TOTAL.RECETTE", "INTERNAT.MUNICIPAL.TOTAL" et "INTERNAT.MUNICIPAL.NON.BOURSIERE.TOTAL".
+Les établissements filles projetés du côté positif de l'axe 1 ont des valeurs élevés pour ces variables.
+
+Le côté négatif de l'axe 1 n'est caractérisé par aucune variable : relation très faible entre les variables potentielles ("COMPARAISON.EXCEDENT.RECETTE" et "INSTITUTIONS.TOTAL") et l'axe 1, contribution peu importante et qualité de représentation mauvaise.
+
+### Interprétation sur l'axe 2
+```{r message=FALSE,warning=FALSE}
+coord = var$coord[,2]
+contrib = var$contrib[,2]
+cos2 = var$cos2[,2]
+display = cbind(coord,contrib,cos2)
+#View(display)
+```
+Le côté positif de l'axe 2 est caractérisé par les variables "RECETTE.TOTALE", "DEPENSES.TOTAL", "ELEVE.TOTAL.GENERAL", "ENSEIGNEMENT.SECONDAIRE.TOTAL" et "EXTERNAT.NON.BOURSIERE.TOTAL".
+Les établissements filles projetés du côté positif de l'axe 2 ont des valeurs élevées pour ces variables.
+
+### Interprétation sur l'axe 3
+```{r message=FALSE,warning=FALSE}
+var = get_pca_var(res.pca) 
+coord = var$coord[,3]
+contrib = var$contrib[,3]
+cos2 = var$cos2[,3]
+display = cbind(coord,contrib,cos2)
+#View(display)
+```
+Le côté positif de l'axe 3 est caractérisé par les variables "RECETTES.SUBVENTION.COMMUNE", "DEPENSE.PERSONNEL.TRAITEMENT" et "DEPENSE.PERSONNEL.INDEMNITES".
+Les établissements filles projetés du côté positif de l'axe 3 sont les établissements qui ont des valeurs élevées pour ces trois variables.
+Le côté négatif de l'axe 3 est caractérisé par la variable "COMPARAISON.EXCEDENT.RECETTE", principale contributrice, mais sa qualité de représentation est moyenne.
+
+### Représentations graphiques des variables
+```{r message=FALSE, warning=FALSE}
+fviz_pca_var(res.pca, title="Représentation graphique des variables les mieux représentées (cos2>0.75) sur les deux premiers axes factoriels", select.var = list(cos2 = 0.7), repel=TRUE)
+fviz_pca_var(res.pca, title="Représentation graphique des 10 variables les plus contributives et colorées selon leur contribution sur les deux premiers axes factoriels", select.var = list(contrib = 10), col.var="contrib", gadients.cols=c("#00AFBB", "#E7B800", "#FC4E07"), axes =c(1,2), repel=TRUE)
+
+fviz_pca_var(res.pca, title="Représentation graphique des variables (les mieux représentées) sur les axes factoriels 1 et 3", select.var = list(cos2 = 0.70), axes =c(1,3), repel=TRUE)
+fviz_pca_var(res.pca, title="Représentation graphique des variables colorées selon leur contribution sur les axes factoriels 1 et 3", select.var = list(contrib = 10), col.var="contrib", gadients.cols=c("#00AFBB", "#E7B800", "#FC4E07"), axes =c(1,3), repel=TRUE)
+
+fviz_pca_var(res.pca, title="Représentation graphique des variables (les mieux représentées) sur les axes factoriels 2 et 3", select.var = list(cos2 = 0.70), axes =c(2,3), repel=TRUE)
+fviz_pca_var(res.pca, title="Représentation graphique des variables colorées selon leur contribution sur les axes factoriels 2 et 3", select.var = list(contrib = 10), col.var="contrib", gadients.cols=c("#00AFBB", "#E7B800", "#FC4E07"), axes =c(2,3), repel=TRUE)
+
+```
+On peut observer un groupe de variables sur l'axe 1 : "INTERNAT.TOTAL.DEPENSE","INTERNAT.TOTAL.RECETTE", "INTERNAT.MUNICIPAL.TOTAL" et "INTERNAT.MUNICIPAL.NON.BOURSIERE.TOTAL" et "INTERNAT.MUNICIPAL.BOURSIERE.TOTAL".
+Ces variables sont proches en distance. Elles sont donc très corrélées entre elles
+Plus il y a d'élèves à l'internat municipal, plus l'établissement dépense pour l'internat, et plus il y a notamment d'internes non boursières, plus l'établissement fait des recettes. Recettes et dépenses étant également très liées.
+La variable "SUPERFICIE.TOTALE" contribue dans le même sens que les variables précédentes à l'axe 1. 
+Les établissements ayant des internats muncipaux importants (nombre d'élèves, dépenses, recettes...) sont aussi ceux qui ont des grande superficie totale. Plus il y a de place, plus les internats peuvent être grands et acceuillir d'élèves.
+
+On peut observer un groupe de variables sur l'axe 2 : "DEPENSE.TOTAL", "RECETTE.TOTAL", "ELEVES.TOTAL.GENEREL", EXTERNAT.NON.BOURSIERE" et "ENSEIGNEMENT.SECONDAIRE.TOTAL". Ces variables proches sont corrélées entre elles. Ce qui est logique pour le nombre d'élèves externes non boursières et celui d'élèves en enseignement secondaire, forcément liés au nombre total d'élèves.
+Les établissements ayant un grand nombre d'élèves ont des dépenses et recettes plus élevées.
+
+On peut observer un groupe de variables sur l'axe 3 : "RECETTES.SUBVENTION.COMMUNE", "DEPENSE.PERSONNEL.INDEMNITES" et "DEPENSES.PERSONNEL.TRAITEMENT".
+Les établissements recevant des subventions des communes élevées ont aussi des dépenses élevées pour leur personnel.
+
+## Analyse des résultats des individus
+###Interprétation sur l'axe 1
+```{r message=FALSE,warning=FALSE}
+ind = get_pca_ind(res.pca) 
+coord=ind$coord[,1]
+contrib=ind$contrib[,1]
+cos2=ind$cos2[,1]
+display=cbind(coord,contrib,cos2)
+#View(display)
+```
+
+```{r message=FALSE, warning=FALSE}
+fviz_cos2(res.pca, choice = "ind", axes = 1) #Graphique du cos2 des individus sur l'axe 1
+fviz_contrib(res.pca, choice = "ind", axes = 1) #Graphique de contribution des individus sur l'axe 1
+
+```
+Le côté positif de l'axe 1 est caractérisé par les établissements filles de MONTPELLIER, MONTAUBAN et TOURNON (3 lycées), qui eux ont donc des valeurs élevées pour les variables "INTERNAT.TOTAL.DEPENSE","INTERNAT.TOTAL.RECETTE", "INTERNAT.MUNICIPAL.TOTAL" et "INTERNAT.MUNICIPAL.NON.BOURSIERE.TOTAL".
+Ce sont des lycées qui ont des internats municpaux importants : beaucoup d'élèves internes, dépenses et recettes pour l'internat municipal élevées.
+
+Le côté négatif de l'axe 1 est caractérisé par l'établissements filles d'ALBI (un collège). 
+
+###Interprétation sur l'axe 2
+```{r message=FALSE,warning=FALSE}
+ind = get_pca_ind(res.pca) 
+coord=ind$coord[,2]
+contrib=ind$contrib[,2]
+cos2=ind$cos2[,2]
+display=cbind(coord,contrib,cos2)
+#View(display)
+```
+
+```{r message=FALSE,warning=FALSE}
+fviz_cos2(res.pca, choice = "ind", axes=2) #Graphique du cos2 des individus sur l'axe 2
+fviz_contrib(res.pca, choice = "ind", axes=2) #Graphique de contribution des individus sur l'axe 2
+```
+
+Le côté positif de l'axe 2 est caractérisé par les établissements filles FENELON et LYON (deux lycées). 
+Ces deux établissements ont des valeurs élevés pour les variables "RECETTE.TOTALE", "DEPENSES.TOTAL", "ELEVE.TOTAL.GENERAL", "ENSEIGNEMENT.SECONDAIRE.TOTAL" et "EXTERNAT.NON.BOURSIERE.TOTAL".
+Ces sont des établissemnts qui ont beaucoup d'élèves, qui dépensent beaucoup et font beaucoup de recettes.
+
+Le côté négatif de l'axe 2 est caractérisé par les établissements filles de VIC-BIGORRE, ARMENTIERES et CHARTRES (trois collèges). 
+Ces collèges, contrairement aux deux établissements précédents ont des valeurs faibles pour les variables "RECETTE.TOTALE", "DEPENSES.TOTAL", "ELEVE.TOTAL.GENERAL", "ENSEIGNEMENT.SECONDAIRE.TOTAL" et "EXTERNAT.NON.BOURSIERE.TOTAL". Ce sont donc des établissements qui ont peu d'élèves, dépensent moins et font moins de recettes.
+
+###Interprétation sur l'axe 3
+```{r message=FALSE,warning=FALSE}
+ind = get_pca_ind(res.pca) 
+coord=ind$coord[,3]
+contrib=ind$contrib[,3]
+cos2=ind$cos2[,3]
+display=cbind(coord,contrib,cos2)
+#View(display)
+```
+
+```{r message=FALSE,warning=FALSE}
+fviz_cos2(res.pca, choice = "ind", axes=3) #Graphique du cos2 des individus sur l'axe 3
+fviz_contrib(res.pca, choice = "ind", axes=3) #Graphique de contribution des individus sur l'axe 3
+```
+
+L'axe 3 est caractérisé seulement par l'établissement fille de LILLE, qui caractérise le côté positif de l'axe 3. 
+Cet établissemnt a des valeurs élevées pour les variables "RECETTES.SUBVENTION.COMMUNE", "DEPENSE.PERSONNEL.TRAITEMENT" et "DEPENSE.PERSONNEL.INDEMNITES".
+
+### Graphiques des individus
+
+```{r message=FALSE,warning=FALSE}
+fviz_pca_ind(res.pca, col.ind = "cos2", gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),title="Etablissements filles coloriés selon leur cos2 sur les axes 1 et 2", repel = TRUE, axes=c(1,2))
+fviz_pca_ind (res.pca, col.ind = "contrib", gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),title="Etablissements filles coloriés selon leur contribution sur les axes 1 et 2", repel = TRUE, axes=c(1,2))
+
+fviz_pca_ind (res.pca, col.ind = ef$TYPE.ETABLISSEMENT, title="Etablissements filles coloriés selon leur type sur les axes 1 et 2", repel = TRUE)
+
+fviz_pca_ind (res.pca, col.ind = "cos2", gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),title="Collèges filles coloriés selon leur cos2 sur les axes 1 et 3",repel = TRUE, axes=c(1,3))
+fviz_pca_ind (res.pca, col.ind = "contrib", gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),title="Collèges filles coloriés selon leur contribution sur les axes 1 et 3",repel = TRUE, axes=c(1,3))
+
+fviz_pca_ind (res.pca, col.ind = ef$TYPE.ETABLISSEMENT, title="Etablissements filles coloriés selon leur type sur les axes 1 et 3", repel = TRUE, axes=c(1,3))
+
+fviz_pca_ind (res.pca, col.ind = "cos2", gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),title="Collèges filles coloriés selon leur cos2 sur les axes 2 et 3",repel = TRUE, axes=2:3)
+fviz_pca_ind (res.pca, col.ind = "contrib", gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),title="Collèges filles coloriés selon leur contribution sur les axes 2 et 3",repel = TRUE, axes=2:3)
+
+fviz_pca_ind (res.pca, col.ind = ef$TYPE.ETABLISSEMENT, title="Etablissements filles coloriés selon leur type sur les axes 2 et 3", repel = TRUE, axes=2:3)
+
+```
+Les établissements qui se ressemblent par l'importance de leurs internats municipaux (nombre d'internes, dépenses, recettes) sont dispersés du côté positif de l'axe 1.
+Une grande partie des établissements est regroupée du côté négatif de l'axe 1, ce qui indiquerait que la plupart des établissemnts ont des "petits" internats municipaux (peu d'élèves par rapport au nombre total, des dépenses et recettes moins importantes).
+
+Les collèges et les lycées filles semblent se différencier quant à leurs recettes, dépenses et nombre d'élèves total. En effet on peut observer un groupe de lycées du côté positif de l'axe 2, ces établissements présentant des valeurs élevées pour ces variables, en opposition à un groupe de collèges du côté négatif de l'axe 2, qui eux présenteraient des valeurs plus faibles pour ces variables.
+Les établissements les plus importants du côté positif de l'axe 2 sont deux établissements de Lyon (FENELON" et "LYON"), un établissement de Lille, un de Bordeaux ou encore un de Toulouse, donc des établissements situés dans des villes de taille importante.
+
+On peut observer un individu particulier sur l'axe 3, l'établissement de Lille qui est du côté positif de l'axe 3, et se démarque donc par des subventions de la commune importantes et des dépenses pour le personnel élevées. La ville de Lille est donc généreuse en subventions pour les établissements filles.
+On peut également différencier les collèges et lycées filles par rapport à cet axe. Les collèges semblent bénéficier de subventions de la commune plus importantes que les lycées, ainsi que dépenser plus pour leur personnel que les lycées.
+
+Pour l'axe 3, on remarque aussi des établissements semblables caractérisés par des valeurs élevées pour la variable "COMPARAISON.EXCEDENT.RECETTE" ; des établissements comme les établissements "BORDEAUX", "AMIENS", "NIORT", "FENELON", "GUERET", "ROANNE" (des lycées). On voit que les lycées se différencient des collèges par des excédents de recettes plus élevés. L'excédent de recettes étant la différence entre recettes et dépenses, ce profil d'établissements est caractérisé par des recettes plus élevées que les dépenses, permettant ainsi aux établissements d'avoir au final des excédents recettes.
+
+
+# ACP des établissements pour garçons (lycées et collèges)
+On fait une ACP car les variables sont très majoritairement quantitatives. L'ACP va permettre d'identfier des établissements qui se ressemblent et des établissements qui sont différents, et va mettre en évidence les corrélations entre les variables.
+Les établissements lycées ont été notés 1, à la suite de leur nom, afin de les différentier des établissements collèges. 
+```{r message=FALSE, warning= FALSE}
+library("markdown")
+library("knitr")
+library("rmarkdown")
+library("FactoMineR")
+library("factoextra")
+library("ggplot2")
+library("questionr")
+library("missMDA")
+library("corrplot")
+```
+
+
+
+#Importation du jeu de données regroupant les données lycées garçons et collèges garcons à partir de leurs variables communes.
+```{r message=FALSE, warning=FALSE}
+#setwd("E:/ENSSIB/M1 HN/projet")
+eg <- read.csv2("etablissements.garcons.csv", header = TRUE, row.names = "ETABLISSEMENTS")
+str(eg)
+```
+
+#conversion de certaines variables afin qu'elles soient numériques.
+```{r message=FALSE, warning=FALSE}
+eg$DEPENSES.NOURRITURE <- as.numeric(eg$DEPENSES.NOURRITURE)
+eg$DEPENSES.PERSONNEL <- as.numeric(eg$DEPENSES.PERSONNEL)
+eg$SUPERFICIE.BATIE <- as.numeric(eg$SUPERFICIE.BATIE)
+eg$SUPERFICIE.LIBRE <- as.numeric(eg$SUPERFICIE.LIBRE)
+eg$SUPERFICIE.TOTALE <- as.numeric(eg$SUPERFICIE.TOTALE)
+eg$DEPENSES.FRAIS.SERVICE <- as.numeric(eg$DEPENSES.FRAIS.SERVICE)
+eg$RECETTE.FRAIS.ETUDES <- as.numeric(eg$RECETTE.FRAIS.ETUDES)
+
+head(eg)
+```
+
+
+#ACP
+# Comme il y a des valeurs manquantes, on va estimer les valeurs manquantes et ainsi compléter le tableau des données à partir duquel nous effectuerons notre ACP prévue.
+```{r message=FALSE, warning=FALSE}
+eg.active<- eg[3:40]
+nb=estim_ncpPCA(eg.active, ncp.max=5)
+eg.complete=imputePCA(eg.active, ncp=nb$ncp)
+res.pca = PCA(eg.complete$completeObs, graph = FALSE)
+print(res.pca)
+```
+
+
+## Visualisation des valeurs propres et choix des axes
+```{r message=FALSE,warning=FALSE}
+eig.val = get_eigenvalue(res.pca)
+eig.val
+fviz_eig(res.pca, addlabels = TRUE)
+```
+Sur le graphique des valeurs propres, selon le critère du coude, on conserve les axes avant le décrochement, ici les deux premiers axes, mais en se concentrant principalement sur le premier axe. Nous allons donner une sémantique à chaque axe retenu en analysant les
+résultats des individus et les résultats des variables.
+
+## Analyse des résultats des variables
+### Interprétation sur l'axe 1
+
+```{r message=FALSE,warning=FALSE}
+var = get_pca_var(res.pca) 
+coord = var$coord[,1]
+contrib = var$contrib[,1]
+cos2 = var$cos2[,1]
+display = cbind(coord,contrib,cos2)
+View(display)
+```
+Le côté positif de l’axe 1 est caractérisé par de nombreuses variables parmi lesquelles ELEVE.CLASSIQUE.TOTAL, ELEVE.TOTAL.GENERAL, DEPENSES.PERSONNEL, ELEVE.INTERNES.TOTAL, ELEVE.EN.CLASSIQUE.4, ELEVE.EXTERNES.TOTAL,  DEPENSES.NOURRITURE.
+ Les établissements projetés du côté positif de l’axe 1 possèdent des valeurs élevées pour ces variables. Ainsi les dépenses au niveau de la nourriture sont considérables, mais également le nombre des élèves des variables qui caractérisent le côté positif de l’axe 1 est important.
+Il n’y a pas de variables caractérisant le côté négatif de l’axe 1.
+
+#Interprétation sur l'axe 2
+```{r message=FALSE, warning=FALSE}
+coord<-var$coord[,2]
+contrib<-var$contrib[,2]
+cos2<-var$cos2[,2]
+display<-cbind(coord,contrib,cos2)
+View(display)
+```
+Le côté positif de l’axe 2 est caractérisé par les variables ELEVE.ENSEIGNEMENT.SPECIAL.TOTAL, ELEVE.ENSEIGNEMENT.SPECIAL.1, ELEVE.ENSEIGNEMENT.SPECIAL.2. Les établissements projetés du côté positif de l’axe 1 possèdent des valeurs élevées pour ces variables qui sont corrélées.  
+Le côté négatif de l’axe 2 est caractérisé par les variables ELEVE.CLASSIQUE.PHILOSOPHIE.VETERAN, ELEVE.CLASSIQUE.RHETORIQUE.VETERAN et ELEVE.CLASSIQUE.RHETORIQUE.NOUVEAU. 
+Les établissements qui possèdent des valeurs élevées pour le nombre d’élèves en enseignement spécial ne sont pas les mêmes que ceux qui possèdent des valeurs élevées concernant le nombre d’élèves en classes classiques rhétorique (nouveaux et vétérans) ainsi que des classes classiques de philosophie (nouveaux et vétérans).
+
+
+```{r message=FALSE, warning = FALSE}
+fviz_contrib(res.pca, choice = "var", axes = 1, top = 10)
+fviz_contrib(res.pca, choice = "var", axes = 2, top = 10)
+fviz_pca_var(res.pca, title="Représentation graphique des variables les mieux représentées (cos2>0.95) sur les deux premiers axes factoriels", select.var = list(cos2 = 0.9), repel=TRUE)
+fviz_pca_var(res.pca, title="Représentation graphique des 7 variables les plus contributives et colorées selon leur contribution sur les deux premiers axes factoriels", select.var = list(contrib = 7), col.var="contrib", gadients.cols=c("#00AFBB", "#E7B800", "#FC4E07"), axes =c(1,2), repel=TRUE)
+```
+Sur l'axe 1, nous pouvons observer un groupe de variables bien corrélées :  le nombre total d’élèves et des variables sur le nombre ou la répartition des élèves dans les classes/spécialités et dépenses. Donc c’est logique qu’elles soient liées (plus y a d’élèves en tout, plus y en aura de répartis dans les classes/spécialités, et aussi plus les établissements dépensent).
+
+
+## Analyse des résultats des individus
+### Interprétation sur l'axe 1
+```{r message=FALSE, warning=FALSE}
+coord<-ind$coord[,1]
+contrib<-ind$contrib[,1]
+cos2<-ind$cos2[,1]
+display<-cbind(coord,contrib,cos2)
+View(display)
+
+```
+
+Le côté positif de l'axe 1 est caractérisé par les établissements de Montpellier 1, Montauban 1, Cambrai et Saumur. De nombreux établissements ont un cos2 supérieux à 0,75, ils sont donc nombreux à être bien représentés sur l'axe 1. Ces établissements ont des vameurs élevés pour les variables qui caractérisent le côté positif de l'axe 1. Les établissements de taille importante ont beaucoup d'élèves et ont des dépenses en personnel et en nourriture importantes. Il y a également deux plus petits groupes d'individus au profil semblable sur l'axe 2
+
+
+
+###Interprétation sur l'axe 2
+```{r message=FALSE, warning=FALSE}
+coord<-ind$coord[,2]
+contrib<-ind$contrib[,2]
+cos2<-ind$cos2[,2]
+display<-cbind(coord,contrib,cos2)
+View(display)
+```
+Les établissements qui contribuent le plus à l'axe 2 sont Louis-le-Grand, Condorcet, tous deux des lycées parisiens, donc plus prestigieux et plus riches, et Marseille, un autre lycée.
+Sur l’axe 2, peu de tendances, juste quelques individus à part comme Louis Le Grand, Condorcet… mais ils sont peu et relativement éloignés, donc possiblement mal représentés. 
+
+
+#Représentation graphique
+```{r message=FALSE, warning=FALSE}
+fviz_pca_ind(res.pca, col.ind = "cos2", gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),title="Etablissements coloriés selon leur cos2 sur les axes 1 et 2", repel = TRUE, axes=c(1,2))
+fviz_pca_ind (res.pca, col.ind = "contrib", gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),title="Etablissements coloriés selon leur contribution sur les axes 1 et 2", repel = TRUE, axes=c(1,2))
+
+fviz_pca_ind (res.pca, col.ind = eg$TYPE.ETABLISSEMENT, title="Etablissements coloriés selon leur type sur les axes 1 et 2", repel = TRUE)
+fviz_cos2(res.pca, choice = "ind", axes = 2)
+fviz_cos2(res.pca, choice = "ind", axes = 2, top=50)
+fviz_contrib(res.pca, choice = "ind", axes = 2, top=10)
+
+```
+Les établissements de taille importante ont beaucoup d'élèves et ont des dépenses en personnel et en nourriture importantes. Il y a également deux plus petits groupes d'individus au profil semblable sur l'axe 2 : ceux du côté négatif de l'axe 2, qui sont des établissements qui ont des valeurs élevées pour les variables ELEVE.CLASSIQUE… et qui semblent s’opposer aux établissements du côté positif qui eux ont des valeurs élevés pour les variables ELEVE.ENSEIGNEMENT.SPECIAL… 
+La grande majorité des établissements possède un profil similaire.
+On peut quand même distinguer des établissements assez proches vers la droite (ceux qui doivent avoir beaucoup d’élèves, de dépenses…). Les différences entre collèges et lycées peuvent quand même être observées : deux groupes, les collèges sont à gauche, tandis que les lycées sont majoritairement à droite. Cela signifie que les collèges ont tendance à avoir moins d’élèves, moins de dépenses, etc que les lycées.  
+La différence principale entre collèges et lycées restent leur taille et ainsi tout ce qui en découle: leur nombre d'élèves, leurs recettes et dépenses, etc. 
+Quelques individus sortent du lot : les lycées parisiens (Michelet, Louis-le-Grand, Condorcet, etc) mais la majorité des établissements se ressemblent.
+Il peut quand même être noté que si les collèges se ressemblent fortement, les lycées sont beaucoup plus dispersés. Ainsi les lycées ont des différences profondément marquées, tandis que les collèges se ressemblent dans leur globalité.
